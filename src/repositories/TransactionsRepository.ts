@@ -14,15 +14,34 @@ class TransactionsRepository {
   }
 
   public all(): Transaction[] {
-    // TODO
+    return this.transactions;
   }
 
   public getBalance(): Balance {
-    // TODO
+    let income = 0;
+    let outcome = 0;
+
+    this.transactions.forEach((t) => {
+      if(t.type === 'income'){
+        income += t.value;
+      }else{
+        outcome += t.value;
+      }
+    })
+
+    return {
+      income,
+      outcome,
+      total: income - outcome
+    }
   }
 
-  public create(): Transaction {
-    // TODO
+  public create(title: string, value: number, type: 'income'|'outcome'): Transaction {
+    const transaction = new Transaction({title, value, type});
+
+    this.transactions.push(transaction);
+
+    return transaction;
   }
 }
 
